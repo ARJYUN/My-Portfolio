@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -46,7 +46,7 @@ const Projects = () => {
       };
 
       // Hide all cards perfectly inside the folder initially
-      cardsRef.current.forEach((card, i) => {
+      cardsRef.current.forEach((card) => {
         gsap.set(card, {
           xPercent: -50,
           yPercent: -50,
