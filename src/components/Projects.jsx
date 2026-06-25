@@ -218,7 +218,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="bg-[#f7f6f2] min-h-[100svh] md:min-h-[150vh] relative font-sans overflow-x-clip text-zinc-900 w-full flex items-center justify-center py-20 md:py-40">
+    <section id="portfolio" ref={containerRef} className="bg-[#f7f6f2] min-h-[100svh] md:min-h-[150vh] relative font-sans overflow-x-clip text-zinc-900 w-full flex items-center justify-center py-20 md:py-40">
       
       {/* Background Typography */}
       <div className="absolute top-0 left-0 w-full flex items-start justify-center pointer-events-none z-0 pt-1 md:pt-0">

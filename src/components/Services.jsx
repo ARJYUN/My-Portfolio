@@ -153,6 +153,7 @@ const Services = () => {
 
   return (
     <section 
+      id="service"
       ref={sectionRef} 
       className="relative w-full h-screen bg-white text-black overflow-hidden flex items-center justify-center md:[perspective:1000px]"
     >

@@ -108,6 +108,7 @@ const Welcome = () => {
 
   return (
     <section 
+      id="about"
       ref={sectionRef} 
       className="relative w-full h-[200vh] bg-transparent text-black flex flex-col items-center justify-start overflow-hidden pointer-events-none"
     >

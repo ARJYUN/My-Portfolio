@@ -35,7 +35,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="relative z-20 w-full mt-[-100vh] bg-white">
+    <div id="contact" className="relative z-20 w-full mt-[-100vh] bg-white">
       <section 
         ref={sectionRef} 
         className="w-full bg-zinc-950 rounded-t-[40px] border-t border-white/10 min-h-screen flex flex-col items-center justify-center py-32 px-4 overflow-hidden"
