@@ -26,75 +26,125 @@ const Services = () => {
   const bgRefs = useRef([]);
   const textRefs = useRef([]);
 
+  const handleScroll = (e) => {
+    if (window.innerWidth >= 769) return;
+    const container = e.target;
+    const center = container.scrollLeft + container.offsetWidth / 2;
+    
+    let activeIdx = 0;
+    let minDiff = Infinity;
+    
+    cardsRef.current.forEach((card, i) => {
+      if (!card) return;
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const diff = Math.abs(cardCenter - center);
+      if (diff < minDiff) {
+        minDiff = diff;
+        activeIdx = i;
+      }
+    });
+
+    cardsRef.current.forEach((card, i) => {
+      if (card) {
+        gsap.to(card, { scale: i === activeIdx ? 1 : 0.9, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+      }
+    });
+
+    bgRefs.current.forEach((bg, i) => {
+      if (bg) gsap.to(bg, { opacity: i === activeIdx ? 1 : 0, duration: 0.4, overwrite: "auto" });
+    });
+    
+    textRefs.current.forEach((txt, i) => {
+      if (txt) gsap.to(txt, { opacity: i === activeIdx ? 1 : 0, duration: 0.4, overwrite: "auto" });
+    });
+  };
+
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      // Set initial positions
-      const updateCards = (p) => {
-        cardsRef.current.forEach((card, i) => {
-          if (!card) return;
-          const offset = i - p;
-          
-          // Math for a perfect half-circle curve!
-          const radius = window.innerWidth < 768 ? 800 : 1800; // Size of the circle
-          const angleSpread = window.innerWidth < 768 ? 25 : 18; // Degrees between each card
-          
-          const angle = offset * angleSpread;
-          const rad = angle * Math.PI / 180;
-          
-          // Perfect circle formula
-          const x = Math.sin(rad) * radius;
-          const y = radius - (Math.cos(rad) * radius); // Drops down along the curve
-          const z = -Math.abs(offset) * 50; // Slight depth
-          
-          const scale = Math.max(0.4, 1 - Math.abs(offset) * 0.15);
-          const rotateZ = angle; // Tilt the cards so they perfectly follow the curve!
-          
-          const opacity = Math.max(0.1, 1 - Math.abs(offset) * 0.3);
-          const zIndex = Math.round(100 - Math.abs(offset) * 10);
+      let mm = gsap.matchMedia();
 
-          gsap.set(card, {
-            x: x,
-            y: y,
-            z: z,
-            scale: scale,
-            rotationZ: rotateZ,
-            rotationY: 0, // Flat 2D rotation for the pure curve effect
-            opacity: opacity,
-            zIndex: zIndex,
-          });
-        });
-
-        // Update solid background colors and text strokes based on active card
-        bgRefs.current.forEach((bg, i) => {
-            if (!bg) return;
-            const itemOpacity = Math.max(0, 1 - Math.abs(i - p));
-            gsap.set(bg, { opacity: itemOpacity });
+      mm.add("(min-width: 769px)", () => {
+        // Set initial positions
+        const updateCards = (p) => {
+          cardsRef.current.forEach((card, i) => {
+            if (!card) return;
+            const offset = i - p;
             
-            if (textRefs.current[i]) {
-                gsap.set(textRefs.current[i], { opacity: itemOpacity });
-            }
+            // Math for a perfect half-circle curve!
+            const radius = 1800; // Size of the circle
+            const angleSpread = 18; // Degrees between each card
+            
+            const angle = offset * angleSpread;
+            const rad = angle * Math.PI / 180;
+            
+            // Perfect circle formula
+            const x = Math.sin(rad) * radius;
+            const y = radius - (Math.cos(rad) * radius); // Drops down along the curve
+            const z = -Math.abs(offset) * 50; // Slight depth
+            
+            const scale = Math.max(0.4, 1 - Math.abs(offset) * 0.15);
+            const rotateZ = angle; // Tilt the cards so they perfectly follow the curve!
+            
+            const opacity = Math.max(0.1, 1 - Math.abs(offset) * 0.3);
+            const zIndex = Math.round(100 - Math.abs(offset) * 10);
+
+            gsap.set(card, {
+              x: x,
+              y: y,
+              z: z,
+              scale: scale,
+              rotationZ: rotateZ,
+              rotationY: 0, // Flat 2D rotation for the pure curve effect
+              opacity: opacity,
+              zIndex: zIndex,
+            });
+          });
+
+          // Update solid background colors and text strokes based on active card
+          bgRefs.current.forEach((bg, i) => {
+              if (!bg) return;
+              const itemOpacity = Math.max(0, 1 - Math.abs(i - p));
+              gsap.set(bg, { opacity: itemOpacity });
+              
+              if (textRefs.current[i]) {
+                  gsap.set(textRefs.current[i], { opacity: itemOpacity });
+              }
+          });
+        };
+
+        // Initialize positions
+        updateCards(0);
+
+        // The ScrollTrigger timeline
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=500%", // 500vh of scrolling duration
+          pin: true,
+          scrub: 1,
+          onUpdate: (self) => {
+            const p = self.progress * (servicesData.length - 1);
+            updateCards(p);
+          }
         });
-      };
-
-      // Initialize positions
-      updateCards(0);
-
-      // The ScrollTrigger timeline
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=500%", // 500vh of scrolling duration
-        pin: true,
-        scrub: 1,
-        onUpdate: (self) => {
-          // self.progress goes from 0 to 1
-          // We map this to our cards indices: 0 to servicesData.length - 1
-          const p = self.progress * (servicesData.length - 1);
-          updateCards(p);
-        }
       });
-      
 
+      mm.add("(max-width: 768px)", () => {
+        cardsRef.current.forEach((card, i) => {
+           if (card) {
+             gsap.set(card, { clearProps: "x,y,z,rotation,scale,opacity,position" });
+             gsap.set(card, { scale: i === 0 ? 1 : 0.9 });
+           }
+        });
+        
+        bgRefs.current.forEach((bg, i) => {
+           if (bg) gsap.set(bg, { clearProps: "all", opacity: i === 0 ? 1 : 0 });
+        });
+        
+        textRefs.current.forEach((txt, i) => {
+           if (txt) gsap.set(txt, { clearProps: "all", opacity: i === 0 ? 1 : 0 });
+        });
+      });
 
     }, sectionRef);
 
@@ -104,7 +154,7 @@ const Services = () => {
   return (
     <section 
       ref={sectionRef} 
-      className="relative w-full h-screen bg-white text-black overflow-hidden flex items-center justify-center [perspective:1000px]"
+      className="relative w-full h-screen bg-white text-black overflow-hidden flex items-center justify-center md:[perspective:1000px]"
     >
       {/* Dynamic Light Background Colors */}
       {servicesData.map((s, i) => (
@@ -134,12 +184,15 @@ const Services = () => {
       </div>
 
       {/* Carousel Container */}
-      <div className="relative w-full h-full flex items-center justify-center z-10 [transform-style:preserve-3d]">
+      <div 
+        className="relative w-full h-full flex md:items-center md:justify-center z-10 md:[transform-style:preserve-3d] overflow-x-auto overflow-y-hidden md:overflow-visible snap-x snap-mandatory scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] items-center px-[10vw] md:px-0 gap-4 md:gap-0 touch-pan-x"
+        onScroll={handleScroll}
+      >
         {servicesData.map((s, i) => (
           <div 
             key={i}
             ref={el => cardsRef.current[i] = el}
-            className="absolute w-[80vw] sm:w-[350px] md:w-[420px] h-[450px] md:h-[550px] rounded-[30px] p-4 bg-white backdrop-blur-2xl border border-gray-200 flex flex-col justify-between overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
+            className="md:absolute relative shrink-0 snap-center w-[80vw] sm:w-[350px] md:w-[420px] h-[450px] md:h-[550px] rounded-[30px] p-4 bg-white backdrop-blur-2xl border border-gray-200 flex flex-col justify-between overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
           >
             {/* Inner Glossy Reflection */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20" />
