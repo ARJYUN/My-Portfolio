@@ -70,7 +70,7 @@ const Hero = () => {
               <h1 
                 className="text-[12vw] lg:text-[6rem] xl:text-[7.5rem] font-black uppercase tracking-tighter text-black"
               >
-                Leeshark
+                Arjun K
               </h1>
             </div>
             <div className="leading-[0.85] pb-1 overflow-hidden h-[10.2vw] lg:h-[5.1rem] xl:h-[6.375rem] relative">
@@ -87,7 +87,7 @@ const Hero = () => {
                 }
               `}</style>
               <div className="animate-text-roll flex flex-col">
-                {['Developer', 'Freelancer', 'Designer', 'Creator', 'Developer'].map((text, idx) => (
+                {['Developer', 'Maker', 'Designer', 'Builder', 'Developer'].map((text, idx) => (
                   <h1 
                     key={idx} 
                     className="text-[12vw] lg:text-[6rem] xl:text-[7.5rem] font-black uppercase tracking-tighter text-transparent [-webkit-text-stroke:2px_black] m-0 p-0 pb-1 leading-[0.85]"
@@ -103,16 +103,27 @@ const Hero = () => {
             <p 
               className="text-zinc-600 text-sm md:text-base leading-relaxed font-medium"
             >
-              Passionate Web Developer crafting modern, interactive and premium digital experiences with creative UI animations and futuristic design aesthetics.
+              3rd Year BTECH CSE Student at NSS College Of Engineering. Creative Developer crafting immersive digital experiences by blending creativity, AI, and modern web technologies into meaningful, user-focused products.
             </p>
           </div>
 
-          {/* BOTTOM CONTACT ROW (Icons Only) */}
+          {/* BOTTOM CONTACT ROW */}
           <div className="flex flex-wrap items-center gap-4 -mt-1">
             
+            {/* Download Resume */}
+            <a 
+              href="https://dataset-kappa.vercel.app/Resume.pdf" 
+              target="_blank" 
+              rel="noreferrer"
+              className="px-6 h-12 rounded-full bg-black text-white text-sm font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_20px_rgba(250,204,21,0.4)] group shrink-0"
+            >
+              <span>Resume</span>
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            </a>
+
             {/* WhatsApp */}
             <a 
-              href="https://wa.me/917695973074" 
+              href="https://wa.me/+918921928511" 
               target="_blank" 
               rel="noreferrer"
               className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center transition-all duration-300 hover:bg-[#25D366] hover:border-[#25D366] hover:shadow-[0_0_20px_rgba(37,211,102,0.4)] group"
@@ -122,7 +133,7 @@ const Hero = () => {
 
             {/* Instagram */}
             <a 
-              href="https://www.instagram.com/lema.web?igsh=MWFtM3BnZHdzamN5aQ==" 
+              href="https://www.instagram.com/arjyun_k/" 
               target="_blank" 
               rel="noreferrer"
               className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center transition-all duration-300 hover:bg-gradient-to-tr hover:from-yellow-500 hover:via-red-500 hover:to-fuchsia-500 hover:border-transparent hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] group"
@@ -132,7 +143,7 @@ const Hero = () => {
 
             {/* LinkedIn */}
             <a 
-              href="https://www.linkedin.com/in/leeshark-p-1a9642291?utm_source=share_via&utm_content=profile&utm_medium=member_android" 
+              href="https://www.linkedin.com/in/arjyun/" 
               target="_blank" 
               rel="noreferrer"
               className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center transition-all duration-300 hover:bg-[#0a66c2] hover:border-[#0a66c2] hover:shadow-[0_0_20px_rgba(10,102,194,0.4)] group"
@@ -142,7 +153,7 @@ const Hero = () => {
 
             {/* GitHub */}
             <a 
-              href="https://github.com/leeshark21" 
+              href="https://github.com/arjyun" 
               target="_blank" 
               rel="noreferrer"
               className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center transition-all duration-300 hover:bg-black hover:border-black hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] group"
@@ -158,8 +169,8 @@ const Hero = () => {
           <img 
             id="hero-image"
             src={heroImg} 
-            alt="Leeshark Developer" 
-            className="w-full max-w-[280px] lg:max-w-xl max-h-[40vh] lg:max-h-[85vh] object-contain drop-shadow-xl pointer-events-none"
+            alt="Arjun Portrait" 
+            className="w-[340px] h-[340px] sm:w-[380px] sm:h-[380px] md:w-[450px] md:h-[450px] lg:w-[600px] lg:h-[600px] object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-20 relative will-change-transform"
             loading="eager"
           />
         </div>

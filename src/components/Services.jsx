@@ -61,89 +61,68 @@ const Services = () => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      let mm = gsap.matchMedia();
-
-      mm.add("(min-width: 769px)", () => {
-        // Set initial positions
-        const updateCards = (p) => {
-          cardsRef.current.forEach((card, i) => {
-            if (!card) return;
-            const offset = i - p;
-            
-            // Math for a perfect half-circle curve!
-            const radius = 1800; // Size of the circle
-            const angleSpread = 18; // Degrees between each card
-            
-            const angle = offset * angleSpread;
-            const rad = angle * Math.PI / 180;
-            
-            // Perfect circle formula
-            const x = Math.sin(rad) * radius;
-            const y = radius - (Math.cos(rad) * radius); // Drops down along the curve
-            const z = -Math.abs(offset) * 50; // Slight depth
-            
-            const scale = Math.max(0.4, 1 - Math.abs(offset) * 0.15);
-            const rotateZ = angle; // Tilt the cards so they perfectly follow the curve!
-            
-            const opacity = Math.max(0.1, 1 - Math.abs(offset) * 0.3);
-            const zIndex = Math.round(100 - Math.abs(offset) * 10);
-
-            gsap.set(card, {
-              x: x,
-              y: y,
-              z: z,
-              scale: scale,
-              rotationZ: rotateZ,
-              rotationY: 0, // Flat 2D rotation for the pure curve effect
-              opacity: opacity,
-              zIndex: zIndex,
-            });
-          });
-
-          // Update solid background colors and text strokes based on active card
-          bgRefs.current.forEach((bg, i) => {
-              if (!bg) return;
-              const itemOpacity = Math.max(0, 1 - Math.abs(i - p));
-              gsap.set(bg, { opacity: itemOpacity });
-              
-              if (textRefs.current[i]) {
-                  gsap.set(textRefs.current[i], { opacity: itemOpacity });
-              }
-          });
-        };
-
-        // Initialize positions
-        updateCards(0);
-
-        // The ScrollTrigger timeline
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=500%", // 500vh of scrolling duration
-          pin: true,
-          scrub: 1,
-          onUpdate: (self) => {
-            const p = self.progress * (servicesData.length - 1);
-            updateCards(p);
-          }
-        });
-      });
-
-      mm.add("(max-width: 768px)", () => {
+      // Set initial positions
+      const updateCards = (p) => {
         cardsRef.current.forEach((card, i) => {
-           if (card) {
-             gsap.set(card, { clearProps: "x,y,z,rotation,scale,opacity,position" });
-             gsap.set(card, { scale: i === 0 ? 1 : 0.9 });
-           }
+          if (!card) return;
+          const offset = i - p;
+          
+          // Math for a perfect half-circle curve!
+          const radius = window.innerWidth < 768 ? 1200 : 1800; // Slightly tighter circle on mobile
+          const angleSpread = window.innerWidth < 768 ? 22 : 18; // Slightly more spread on mobile
+          
+          const angle = offset * angleSpread;
+          const rad = angle * Math.PI / 180;
+          
+          // Perfect circle formula
+          const x = Math.sin(rad) * radius;
+          const y = radius - (Math.cos(rad) * radius); // Drops down along the curve
+          const z = -Math.abs(offset) * 50; // Slight depth
+          
+          const scale = Math.max(0.4, 1 - Math.abs(offset) * 0.15);
+          const rotateZ = angle; // Tilt the cards so they perfectly follow the curve!
+          
+          const opacity = Math.max(0.1, 1 - Math.abs(offset) * 0.3);
+          const zIndex = Math.round(100 - Math.abs(offset) * 10);
+
+          gsap.set(card, {
+            x: x,
+            y: y,
+            z: z,
+            scale: scale,
+            rotationZ: rotateZ,
+            rotationY: 0, // Flat 2D rotation for the pure curve effect
+            opacity: opacity,
+            zIndex: zIndex,
+          });
         });
-        
+
+        // Update solid background colors and text strokes based on active card
         bgRefs.current.forEach((bg, i) => {
-           if (bg) gsap.set(bg, { clearProps: "all", opacity: i === 0 ? 1 : 0 });
+            if (!bg) return;
+            const itemOpacity = Math.max(0, 1 - Math.abs(i - p));
+            gsap.set(bg, { opacity: itemOpacity });
+            
+            if (textRefs.current[i]) {
+                gsap.set(textRefs.current[i], { opacity: itemOpacity });
+            }
         });
-        
-        textRefs.current.forEach((txt, i) => {
-           if (txt) gsap.set(txt, { clearProps: "all", opacity: i === 0 ? 1 : 0 });
-        });
+      };
+
+      // Initialize positions
+      updateCards(0);
+
+      // The ScrollTrigger timeline
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=500%", // 500vh of scrolling duration
+        pin: true,
+        scrub: true,
+        onUpdate: (self) => {
+          const p = self.progress * (servicesData.length - 1);
+          updateCards(p);
+        }
       });
 
     }, sectionRef);
@@ -153,9 +132,9 @@ const Services = () => {
 
   return (
     <section 
-      id="service"
+      id="projects"
       ref={sectionRef} 
-      className="relative w-full h-screen bg-white text-black overflow-hidden flex items-center justify-center md:[perspective:1000px]"
+      className="relative w-full h-screen bg-white text-black overflow-hidden flex items-center justify-center [perspective:1000px]"
     >
       {/* Dynamic Light Background Colors */}
       {servicesData.map((s, i) => (
@@ -179,21 +158,20 @@ const Services = () => {
                opacity: 0 // Controlled by GSAP
             }}
           >
-            SERVICES
+            PROJECTS
           </h1>
         ))}
       </div>
 
       {/* Carousel Container */}
       <div 
-        className="relative w-full h-full flex md:items-center md:justify-center z-10 md:[transform-style:preserve-3d] overflow-x-auto overflow-y-hidden md:overflow-visible snap-x snap-mandatory scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] items-center px-[10vw] md:px-0 gap-4 md:gap-0 touch-pan-x"
-        onScroll={handleScroll}
+        className="relative w-full h-full flex items-center justify-center z-10 [transform-style:preserve-3d] overflow-visible"
       >
         {servicesData.map((s, i) => (
           <div 
             key={i}
             ref={el => cardsRef.current[i] = el}
-            className="md:absolute relative shrink-0 snap-center w-[80vw] sm:w-[350px] md:w-[420px] h-[450px] md:h-[550px] rounded-[30px] p-4 bg-white backdrop-blur-2xl border border-gray-200 flex flex-col justify-between overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
+            className="absolute shrink-0 w-[70vw] sm:w-[350px] md:w-[420px] h-[400px] md:h-[550px] rounded-[30px] p-4 bg-white backdrop-blur-2xl border border-gray-200 flex flex-col justify-between overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
           >
             {/* Inner Glossy Reflection */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20" />
@@ -210,8 +188,6 @@ const Services = () => {
         ))}
       </div>
       
-
-
     </section>
   );
 };

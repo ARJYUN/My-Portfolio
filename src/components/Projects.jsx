@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
 
 import img1 from '../assets/project/image-1.png';
 import img2 from '../assets/project/image-2.png';
@@ -16,6 +17,8 @@ gsap.registerPlugin(ScrollTrigger);
 const projectImages = [img1, img2, img3, img4, img5, img6, img7, img8];
 
 const Projects = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isMobileAnimDone, setIsMobileAnimDone] = useState(false);
   const containerRef = useRef(null);
   const folderBackRef = useRef(null);
   const folderFrontRef = useRef(null);
@@ -26,13 +29,13 @@ const Projects = () => {
   useEffect(() => {
     let ctx = gsap.context(() => {
       // Set initial origins (Centered in the viewport)
-      gsap.set([folderBackRef.current, folderFrontRef.current], { 
-        xPercent: -50, 
-        yPercent: -50 
+      gsap.set([folderBackRef.current, folderFrontRef.current], {
+        xPercent: -50,
+        yPercent: -50
       });
       // The front flap rotates from its bottom hinge
       gsap.set(folderFrontRef.current, { transformOrigin: "bottom center" });
-      
+
       const getGridPos = (index) => {
         let row, col;
         // Top row: 3 cards
@@ -71,9 +74,9 @@ const Projects = () => {
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: containerRef.current,
-              start: "top 50%", 
+              start: "top 50%",
               end: "bottom 50%",
-              toggleActions: "play reverse play reverse",
+              toggleActions: "play none none reverse",
               onEnter: () => { if (floatTween) floatTween.kill(); },
               onEnterBack: () => { if (floatTween) floatTween.kill(); },
               onLeave: () => { if (floatTween) floatTween.kill(); },
@@ -134,11 +137,11 @@ const Projects = () => {
         if (isMobile) {
           const cardW = window.innerWidth * 0.75;
           const gap = 24;
-          
+
           // Initial Setup: Pull all cards horizontally into the center folder
           mobileCardsRef.current.forEach((card, i) => {
             gsap.set(card, {
-              x: -(i * (cardW + gap)), 
+              x: -(i * (cardW + gap)),
               y: 0,
               scale: 0.4,
               opacity: 0,
@@ -181,12 +184,17 @@ const Projects = () => {
             stagger: 0.08,
             ease: "expo.out",
             onComplete: () => {
-              if (mobileCarouselRef.current) {
-                mobileCarouselRef.current.style.overflowX = 'auto';
-                mobileCarouselRef.current.style.pointerEvents = 'auto';
-              }
+              setIsMobileAnimDone(true);
             }
           }, "-=0.2");
+
+          // Fade out the folder so it doesn't awkwardly sit behind the carousel
+          tl.to([folderBackRef.current, folderFrontRef.current], {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.6,
+            ease: "power2.inOut"
+          }, "-=0.6");
 
           // Native scroll snapping effect for scale & opacity
           if (mobileCarouselRef.current) {
@@ -195,12 +203,12 @@ const Projects = () => {
               const scrollLeft = carousel.scrollLeft;
               mobileCardsRef.current.forEach((card, i) => {
                 if (!card) return;
-                const cardCenter = i * (cardW + gap); 
+                const cardCenter = i * (cardW + gap);
                 const dist = Math.abs(scrollLeft - cardCenter);
-                
+
                 const maxDist = cardW + gap;
                 const progress = Math.max(0, 1 - dist / maxDist);
-                
+
                 gsap.set(card, {
                   scale: 0.92 + (0.08 * progress),
                   opacity: 0.5 + (0.5 * progress)
@@ -219,9 +227,9 @@ const Projects = () => {
 
   return (
     <section id="portfolio" ref={containerRef} className="bg-[#f7f6f2] min-h-[100svh] md:min-h-[150vh] relative font-sans overflow-x-clip text-zinc-900 w-full flex items-center justify-center py-20 md:py-40">
-      
+
       {/* Background Typography */}
-      <div className="absolute top-0 left-0 w-full flex items-start justify-center pointer-events-none z-0 pt-1 md:pt-0">
+      <div className="absolute top-0 left-0 w-full flex items-start justify-center pointer-events-none z-0 pt-16 md:pt-0">
         <h1 className="text-[15vw] sm:text-[18vw] md:text-[22vw] font-black text-zinc-950 tracking-tighter leading-none whitespace-nowrap uppercase">
           My Work
         </h1>
@@ -232,23 +240,23 @@ const Projects = () => {
 
       {/* Main Perspective Container */}
       <div className=" mt-12 relative w-full max-w-7xl h-full flex items-center justify-center perspective-[2000px] z-10">
-        
+
         {/* Origin Container (Centered Stacking Context) */}
         <div className="relative w-0 h-0 transform-style-3d">
-          
+
           {/* Folder Back */}
-          <div 
+          <div
             ref={folderBackRef}
             className="absolute w-[85vw] md:w-[32vw] max-w-[380px] aspect-video bg-[#f4c400] rounded-[24px] shadow-[0_20px_50px_rgba(217,163,0,0.3)] flex items-center justify-center"
             style={{ zIndex: 5 }}
           >
             {/* Top Tab */}
             <div className="absolute -top-6 left-6 w-32 h-8 bg-[#d9a300] rounded-t-xl" />
-            
+
             {/* Paper Texture & Depth */}
             <div className="absolute inset-0 rounded-[24px] shadow-[inset_0_20px_40px_rgba(0,0,0,0.08)] opacity-60 pointer-events-none" />
             <div className="absolute inset-0 rounded-[24px] opacity-[0.08] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/rice-paper-2.png")' }} />
-            
+
             <div className="relative z-10 text-[#d9a300] font-black text-2xl tracking-widest uppercase opacity-40">
               Archive
             </div>
@@ -256,20 +264,23 @@ const Projects = () => {
 
           {/* Desktop Project Cards */}
           {projectImages.map((img, i) => (
-            <div 
+            <div
               key={i}
               ref={el => cardsRef.current[i] = el}
               className="hidden md:block absolute w-[75vw] md:w-[28vw] max-w-[340px] aspect-video will-change-transform"
               style={{ zIndex: 10 + i }}
             >
-              <div className="w-full h-full rounded-[28px] overflow-hidden border border-white/60 bg-white shadow-[0_15px_35px_rgba(0,0,0,0.1)] transition-all duration-500 group hover:scale-[1.03] hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] hover:-translate-y-2 cursor-pointer relative z-10 will-change-transform">
-                <img src={img} alt={`Project ${i+1}`} className="w-full h-full object-cover" loading="lazy" />
-                
+              <div
+                onClick={() => setSelectedImage(img)}
+                className="w-full h-full rounded-[28px] overflow-hidden border border-white/60 bg-white shadow-[0_15px_35px_rgba(0,0,0,0.1)] transition-all duration-500 group hover:scale-[1.03] hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] hover:-translate-y-2 cursor-pointer relative z-10 will-change-transform"
+              >
+                <img src={img} alt={`Project ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+
                 {/* Explore Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                   <span className="text-white font-semibold tracking-wider text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300">EXPLORE</span>
                 </div>
-                
+
                 {/* Glow ring on hover */}
                 <div className="absolute inset-0 border-[3px] border-transparent group-hover:border-white/50 rounded-[28px] transition-colors duration-500 pointer-events-none" />
               </div>
@@ -277,7 +288,7 @@ const Projects = () => {
           ))}
 
           {/* Folder Front Flap */}
-          <div 
+          <div
             ref={folderFrontRef}
             className="absolute w-[85vw] md:w-[32vw] max-w-[380px] aspect-video pointer-events-none will-change-transform"
             style={{ zIndex: 60 }}
@@ -293,26 +304,66 @@ const Projects = () => {
       </div>
 
       {/* Mobile Swipeable Carousel */}
-      <div 
+      <div
         ref={mobileCarouselRef}
-        className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-auto py-12 flex items-center gap-6 px-[12.5vw] pointer-events-none z-[100] snap-x snap-mandatory overflow-x-hidden hide-scrollbar"
+        className={`md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-auto py-12 flex items-center gap-6 px-[12.5vw] z-[100] snap-x snap-mandatory hide-scrollbar ${isMobileAnimDone ? 'overflow-x-auto pointer-events-auto' : 'overflow-x-hidden pointer-events-none'}`}
       >
         <style>{`
           .hide-scrollbar::-webkit-scrollbar { display: none; }
           .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         `}</style>
         {projectImages.map((img, i) => (
-          <div 
+          <div
             key={`mob-${i}`}
             ref={el => mobileCardsRef.current[i] = el}
-            className="shrink-0 w-[75vw] aspect-video snap-center will-change-transform relative z-10"
+            className="shrink-0 w-[75vw] aspect-square snap-center will-change-transform relative z-10 cursor-pointer pointer-events-auto"
+            onClick={() => setSelectedImage(img)}
           >
             <div className="w-full h-full rounded-[24px] overflow-hidden border border-white/60 bg-white shadow-[0_15px_35px_rgba(0,0,0,0.1)] transition-all duration-500">
-              <img src={img} alt={`Project ${i+1}`} className="w-full h-full object-cover" loading="lazy" />
+              <img src={img} alt={`Project ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
         ))}
       </div>
+
+      {/* View More Button */}
+      <div className="absolute bottom-10 md:bottom-20 left-1/2 -translate-x-1/2 z-[110]">
+        <Link
+          to="/design-works"
+          className="px-8 py-4 bg-zinc-950 text-white rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#facc15] hover:text-black transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] flex items-center gap-2 group"
+        >
+          View More Works
+          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </Link>
+      </div>
+
+      {/* Fullscreen Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-12 bg-black/90 backdrop-blur-sm pointer-events-auto"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-6xl w-full h-full flex items-center justify-center pointer-events-none">
+            <img
+              src={selectedImage}
+              alt="Fullscreen Design Work"
+              className="max-w-full max-h-full object-contain drop-shadow-2xl pointer-events-auto rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+              className="absolute top-0 right-0 md:-top-4 md:-right-4 w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-[#facc15] hover:scale-110 transition-all shadow-xl pointer-events-auto z-50"
+              aria-label="Close"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
 
     </section>
   );

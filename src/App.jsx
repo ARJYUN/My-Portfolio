@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import Lenis from 'lenis'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Portfolio from './components/Portfolio'
@@ -10,13 +11,14 @@ import Projects from './components/Projects'
 import Services from './components/Services'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import DesignWorks from './pages/DesignWorks'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 gsap.registerPlugin(ScrollTrigger);
 
-function App() {
+function MainPortfolio() {
   useEffect(() => {
     // Initialize AOS
     AOS.init({
@@ -25,57 +27,53 @@ function App() {
       easing: 'ease-out-cubic'
     });
 
-    // Initialize Lenis Smooth Scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      smoothTouch: true,
-      touchMultiplier: 2,
-    });
-
-    // Sync Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    gsap.ticker.lagSmoothing(0);
+    // Removed Lenis: JS-based smooth scrolling causes severe conflicts with GSAP pinned sections 
+    // and AOS, making the scrolling feel "stuck" or sluggish when reversing momentum.
+    // Native scrolling with GSAP ScrollTrigger is much more reliable and performant.
 
     return () => {
-      lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      // Cleanup AOS if needed (usually not required)
     };
   }, []);
 
   return (
     <main className="bg-zinc-950 min-h-screen text-white font-sans selection:bg-[#facc15]/30 overflow-x-hidden">
       <Navbar />
-     
+
       {/* Fixed Portfolio Background for Parallax Overlap */}
       <div className="fixed top-0 left-0 w-full h-screen z-0 pointer-events-auto">
         <Portfolio />
       </div>
-      
+
       {/* Main Content that scrolls OVER the portfolio */}
       <div className="relative w-full overflow-hidden bg-white mt-[100vh] z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.15)] border-t border-white/20">
         <Hero />
         <Welcome />
       </div>
-      
+
       <Projects />
-     
+
       <Services />
-      
+
       {/* Contact overlap Parallax */}
       <Contact />
-      
+
       <div className="relative z-30">
         <Footer />
       </div>
-      
+
     </main>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPortfolio />} />
+        <Route path="/design-works" element={<DesignWorks />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
