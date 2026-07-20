@@ -148,7 +148,7 @@ const Welcome = () => {
           }, {
             y: 0,
             scale: 1,
-            opacity: 0.15, // Keep it subtle like a watermark
+            opacity: 0.3, // Increased opacity to make the text more visible
             ease: "power2.out"
           }, 0);
         }
@@ -177,8 +177,8 @@ const Welcome = () => {
         <h2 className="welcome-huge-text text-[14vw] sm:text-[14vw] md:text-[14vw] font-black uppercase tracking-tighter text-black leading-none whitespace-nowrap">
           WELCOME
         </h2>
-        <p className="welcome-huge-text mt-2 md:mt-4 text-zinc-500 font-medium tracking-widest uppercase text-[10px] sm:text-xs md:text-base">
-          To my creative space
+        <p className="welcome-huge-text mt-2 md:mt-4 text-black font-bold tracking-[0.4em] uppercase text-xs sm:text-sm md:text-xl">
+          TO MY CREATIVE SPACE
         </p>
       </div>
 
