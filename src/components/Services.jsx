@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -21,6 +21,7 @@ const servicesData = [
 ];
 
 const Services = () => {
+  const [activeCard, setActiveCard] = useState(null);
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
   const bgRefs = useRef([]);
@@ -168,31 +169,34 @@ const Services = () => {
           <div 
             key={i}
             ref={el => cardsRef.current[i] = el}
-            className="absolute shrink-0 w-[70vw] sm:w-[350px] md:w-[420px] h-[400px] md:h-[550px] rounded-[30px] p-4 bg-white backdrop-blur-2xl border border-gray-200 flex flex-col justify-between overflow-hidden group/outer shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
+            className="absolute shrink-0 w-[70vw] sm:w-[350px] md:w-[420px] h-[400px] md:h-[550px] rounded-[24px] p-2 bg-white backdrop-blur-2xl border border-gray-200 flex flex-col justify-between overflow-hidden group/outer shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
           >
             {/* Inner Glossy Reflection */}
             <div className="absolute inset-0 bg-gradient-to-tr from-black/5 to-transparent opacity-0 group-hover/outer:opacity-100 transition-opacity duration-500 pointer-events-none z-20" />
             
             {/* Full Card Image */}
-            <div className="w-full h-full rounded-[20px] overflow-hidden relative z-10 group/card pointer-events-auto cursor-pointer">
+            <div 
+              className="w-full h-full rounded-[18px] overflow-hidden relative z-10 group/card pointer-events-auto cursor-pointer"
+              onClick={() => setActiveCard(activeCard === i ? null : i)}
+            >
               <img 
                 src={s.img} 
                 alt={s.title} 
-                className="w-full h-full object-cover transition-all duration-700 group-hover/card:scale-110 group-hover/card:blur-[4px]" 
+                className={`w-full h-full object-cover transition-all duration-700 ${activeCard === i ? 'scale-110 blur-[4px]' : 'group-hover/card:scale-110 group-hover/card:blur-[4px]'}`} 
               />
               
               {/* Overlay with Text and Icons */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/card:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-6 text-center z-30">
-                  <h3 className="text-white text-2xl font-bold mb-2 translate-y-4 group-hover/card:translate-y-0 transition-transform duration-500">{s.title}</h3>
-                  <p className="text-white/80 text-sm md:text-base mb-6 translate-y-4 group-hover/card:translate-y-0 transition-transform duration-500 delay-75">{s.desc}</p>
+              <div className={`absolute inset-0 bg-black/60 transition-all duration-500 flex flex-col items-center justify-center p-6 text-center z-30 ${activeCard === i ? 'opacity-100' : 'opacity-0 group-hover/card:opacity-100'}`}>
+                  <h3 className={`text-white text-2xl font-bold mb-2 transition-transform duration-500 ${activeCard === i ? 'translate-y-0' : 'translate-y-4 group-hover/card:translate-y-0'}`}>{s.title}</h3>
+                  <p className={`text-white/80 text-sm md:text-base mb-6 transition-transform duration-500 delay-75 ${activeCard === i ? 'translate-y-0' : 'translate-y-4 group-hover/card:translate-y-0'}`}>{s.desc}</p>
                   
                   <div className="flex items-center gap-4">
-                    <a href={s.github || "#"} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-[#facc15] hover:scale-110 transition-all duration-300 shadow-xl translate-y-4 group-hover/card:translate-y-0 delay-150" title="View Source on GitHub">
+                    <a href={s.github || "#"} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className={`w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-[#facc15] hover:scale-110 transition-all duration-300 shadow-xl delay-150 ${activeCard === i ? 'translate-y-0' : 'translate-y-4 group-hover/card:translate-y-0'}`} title="View Source on GitHub">
                       <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                         <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
                       </svg>
                     </a>
-                    <a href={s.live || "#"} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-[#facc15] hover:scale-110 transition-all duration-300 shadow-xl translate-y-4 group-hover/card:translate-y-0 delay-200" title="Live Preview">
+                    <a href={s.live || "#"} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className={`w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-[#facc15] hover:scale-110 transition-all duration-300 shadow-xl delay-200 ${activeCard === i ? 'translate-y-0' : 'translate-y-4 group-hover/card:translate-y-0'}`} title="Live Preview">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
                       </svg>
