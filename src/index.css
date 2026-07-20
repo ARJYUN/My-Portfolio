@@ -1,8 +1,8 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @theme {
-  --font-sans: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
@@ -12,5 +12,5 @@ body {
   color: #fff;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif !important;
 }
