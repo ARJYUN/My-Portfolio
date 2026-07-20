@@ -28,12 +28,34 @@ function MainPortfolio() {
       easing: 'ease-out-cubic'
     });
 
-    // Removed Lenis: JS-based smooth scrolling causes severe conflicts with GSAP pinned sections 
-    // and AOS, making the scrolling feel "stuck" or sluggish when reversing momentum.
-    // Native scrolling with GSAP ScrollTrigger is much more reliable and performant.
+    // Fix for GSAP ScrollTrigger calculation bugs on production deploy:
+    // When elements (like AOS fade-ups or images) change the height of the document,
+    // GSAP needs to recalculate the trigger points for pinned sections.
+    const refreshGSAP = () => {
+      ScrollTrigger.refresh();
+    };
+
+    // Refresh after a short delay (gives AOS time to set initial states)
+    const timer1 = setTimeout(refreshGSAP, 100);
+    const timer2 = setTimeout(refreshGSAP, 500);
+    const timer3 = setTimeout(refreshGSAP, 2000);
+
+    // Refresh on full window load (images/fonts)
+    if (document.readyState === 'complete') {
+      refreshGSAP();
+    } else {
+      window.addEventListener('load', refreshGSAP);
+    }
+    
+    // Refresh on resize
+    window.addEventListener('resize', refreshGSAP);
 
     return () => {
-      // Cleanup AOS if needed (usually not required)
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      window.removeEventListener('load', refreshGSAP);
+      window.removeEventListener('resize', refreshGSAP);
     };
   }, []);
 
