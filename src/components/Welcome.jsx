@@ -13,6 +13,7 @@ import pImg2 from '../assets/journey/image-2.png';
 import pImg3 from '../assets/journey/image-3.jpeg';
 import pImg4 from '../assets/journey/image-4.jpeg';
 import pImg5 from '../assets/journey/image-5.jpeg';
+import pImg6 from '../assets/journey/image-6.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +21,8 @@ const journeyData = [
   { year: "2026 - PRESENT", title: "WEBMASTER IEEE CS KERALA SECTION", desc: "Led the digital presence of IEEE CS Kerala Section through modern web solutions.", img: pImg3 },
   { year: "MAY 2026 - PRESENT", title: "R & D INTERN AT BOEHM TECH LLP.", desc: "Developing AI-powered MVP solutions through collaborative research and innovation.", img: pImg5 },
   { year: "2026 - PRESENT", title: "WEBMASTER IEEE SB NSSCE", desc: "Developed and maintained the official web platforms of IEEE SB NSSCE.", img: pImg4 },
-  { year: "2025 - PRESENT", title: "Tech Lead, μLearn NSSCE", desc: "Empowered students by leading technical initiatives and developer communities.", img: pImg2 },
+  { year: "2025 - PRESENT", title: "Tech Lead, μLearn NSSCE", desc: "Empowered students by leading technical initiatives and developer communities, developed and maintained the official website of μLearn NSSCE.", img: pImg2 },
+  { year: "AUG 2025 - APR 2026", title: "WEB Intern, IEDC NSSCE", desc: "Successfully Completed 9 months internship as a Web Intern at IEDC NSSCE.", img: pImg6 },
   { year: "2024", title: "JOURNEY BEGINS...", desc: "A journey fueled by learning, innovation, and the pursuit of excellence", img: pImg1 },
 ];
 
@@ -54,14 +56,14 @@ const JourneyItem = ({ item, index }) => {
     return (
        <div className="relative w-full flex flex-col md:flex-row items-center justify-between md:py-2 my-8 md:my-0 group cursor-default" data-aos="fade-up">
           
-          {/* Center Dot */}
-          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white border-[3px] border-zinc-300 rounded-full z-10 shadow-md transition-all duration-300 group-hover:scale-[1.5] group-hover:border-[#facc15]"></div>
+          {/* Timeline Dot (Left on Mobile, Center on Desktop) */}
+          <div className="absolute md:left-1/2 left-6 -translate-x-1/2 top-1.5 md:top-1/2 md:-translate-y-1/2 w-4 h-4 bg-white border-[3px] border-zinc-300 rounded-full z-10 shadow-md transition-all duration-300 group-hover:scale-[1.5] group-hover:border-[#facc15]"></div>
           
           {/* Content Side */}
-          <div className={`w-full md:w-1/2 flex flex-col ${isEven ? 'md:items-end md:text-right md:pr-16' : 'md:items-start md:text-left md:pl-16 md:order-last'} text-center mb-6 md:mb-0 z-20`}>
+          <div className={`w-full md:w-1/2 flex flex-col pl-16 md:pl-0 ${isEven ? 'md:items-end md:text-right md:pr-16' : 'md:items-start md:text-left md:pl-16 md:order-last'} text-left mb-6 md:mb-0 z-20`}>
               <span className="text-[#d9a300] font-black text-base md:text-lg tracking-widest uppercase mb-1 drop-shadow-sm transition-transform duration-300 group-hover:-translate-y-1">{item.year}</span>
-              <h4 className={`text-3xl md:text-4xl font-black uppercase tracking-tighter text-black mb-3 transition-transform duration-500 ease-out ${isEven ? 'group-hover:-translate-x-2' : 'group-hover:translate-x-2'}`}>{item.title}</h4>
-              <p className="text-zinc-600 font-medium max-w-sm mx-auto md:mx-0 leading-relaxed text-sm">{item.desc}</p>
+              <h4 className={`text-2xl md:text-4xl font-black uppercase tracking-tighter text-black mb-3 transition-transform duration-500 ease-out group-hover:translate-x-2 ${isEven ? 'md:group-hover:-translate-x-2' : 'md:group-hover:translate-x-2'}`}>{item.title}</h4>
+              <p className="text-zinc-600 font-medium max-w-sm md:mx-0 leading-relaxed text-sm">{item.desc}</p>
           </div>
 
           {/* Image Side (Always visible on Desktop) */}
@@ -71,9 +73,13 @@ const JourneyItem = ({ item, index }) => {
               </div>
           </div>
 
-          {/* Mobile Image (Always visible) */}
-          <div className="md:hidden w-full rounded-xl overflow-hidden shadow-lg mt-4 border border-black/5 flex justify-center bg-zinc-50 transition-transform duration-500 ease-out group-hover:scale-[1.02]">
-             <img src={item.img} alt={item.title} className="w-full h-auto object-contain transition-transform duration-700 ease-out group-hover:scale-105" loading="lazy" />
+          {/* Mobile Image (Always visible on mobile) */}
+          <div className="md:hidden w-full flex justify-start pl-16 pr-4 mt-2 mb-8 z-20">
+              <div className="w-[90%] sm:w-[75%] relative p-2 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.1)] border border-black/5 transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:rotate-1">
+                 <div className="rounded-xl overflow-hidden bg-zinc-50 flex items-center justify-center">
+                    <img src={item.img} alt={item.title} className="w-full h-auto max-h-[30vh] object-contain transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy" />
+                 </div>
+              </div>
           </div>
 
        </div>
@@ -100,7 +106,7 @@ const Welcome = () => {
               trigger: sectionRef.current,
               start: "top bottom",
               end: "top top",
-              scrub: 1,
+              scrub: true,
             }
           });
 
@@ -154,7 +160,6 @@ const Welcome = () => {
 
   return (
     <section 
-      id="about"
       ref={sectionRef} 
       className="relative w-full h-auto min-h-screen bg-transparent text-black flex flex-col items-center justify-start overflow-hidden pointer-events-none"
     >
@@ -185,8 +190,8 @@ const Welcome = () => {
          </div>
 
          <div className="relative w-full max-w-6xl mx-auto px-4 md:px-8 flex flex-col">
-            {/* Center Line for Desktop */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-zinc-200 -translate-x-1/2"></div>
+            {/* Timeline Line (Left on Mobile, Center on Desktop) */}
+            <div className="absolute md:left-1/2 left-10 top-0 bottom-0 w-[2px] bg-zinc-200 -translate-x-1/2 z-0"></div>
             
             {journeyData.map((item, index) => (
                 <JourneyItem key={index} item={item} index={index} />

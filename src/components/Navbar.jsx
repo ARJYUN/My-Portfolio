@@ -31,7 +31,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const navLinks = ["Home", "About", "Portfolio", "Projects", "Contact"];
+  const navLinks = ["Home", "About", "Projects",  "Designs", "Achievements", "Contact"];
 
   return (
     <>

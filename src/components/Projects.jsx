@@ -226,12 +226,12 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="portfolio" ref={containerRef} className="bg-[#f7f6f2] min-h-[100svh] md:min-h-[150vh] relative font-sans overflow-x-clip text-zinc-900 w-full flex items-center justify-center py-20 md:py-40">
+    <section id="designs" ref={containerRef} className="bg-[#f7f6f2] min-h-[100svh] md:min-h-[150vh] relative font-sans overflow-x-clip text-zinc-900 w-full flex items-center justify-center py-20 md:py-40">
 
       {/* Background Typography */}
       <div className="absolute top-0 left-0 w-full flex items-start justify-center pointer-events-none z-0 pt-16 md:pt-0">
         <h1 className="text-[15vw] sm:text-[18vw] md:text-[22vw] font-black text-zinc-950 tracking-tighter leading-none whitespace-nowrap uppercase">
-          My Work
+          My Designs
         </h1>
       </div>
 
@@ -332,7 +332,7 @@ const Projects = () => {
           to="/design-works"
           className="px-8 py-4 bg-zinc-950 text-white rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#facc15] hover:text-black transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] flex items-center gap-2 group"
         >
-          View More Works
+          View More Designs
           <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>

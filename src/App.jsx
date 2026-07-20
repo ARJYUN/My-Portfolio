@@ -9,6 +9,7 @@ import Hero from './components/Hero'
 import Welcome from './components/Welcome'
 import Projects from './components/Projects'
 import Services from './components/Services'
+import Achievements from './components/Achievements'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import DesignWorks from './pages/DesignWorks'
@@ -37,7 +38,7 @@ function MainPortfolio() {
   }, []);
 
   return (
-    <main className="bg-zinc-950 min-h-screen text-white font-sans selection:bg-[#facc15]/30 overflow-x-hidden">
+    <main id="home" className="bg-zinc-950 min-h-screen text-white font-sans selection:bg-[#facc15]/30 overflow-x-hidden">
       <Navbar />
 
       {/* Fixed Portfolio Background for Parallax Overlap */}
@@ -51,9 +52,11 @@ function MainPortfolio() {
         <Welcome />
       </div>
 
+      <Services />
+
       <Projects />
 
-      <Services />
+      <Achievements />
 
       {/* Contact overlap Parallax */}
       <Contact />

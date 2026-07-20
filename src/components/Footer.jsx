@@ -2,7 +2,7 @@
 import footerImg from '../assets/footer/footer.png';
 
 const Footer = () => {
-  const navLinks = ["Home", "About", "Portfolio", "Service", "Contact"];
+  const navLinks = ["Home", "About", "Projects", "Designs", "Achievements", "Contact"];
   const marqueeText = "WEB DEVELOPER • ARJUN K • STUDENT • FREELANCER • PORTFOLIO • ".repeat(4);
 
   return (
