@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { gsap } from 'gsap'
@@ -13,6 +13,7 @@ import Achievements from './components/Achievements'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import DesignWorks from './pages/DesignWorks'
+import Preloader from './components/Preloader'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -20,6 +21,8 @@ import 'aos/dist/aos.css'
 gsap.registerPlugin(ScrollTrigger);
 
 function MainPortfolio() {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // Initialize AOS
     AOS.init({
@@ -35,32 +38,33 @@ function MainPortfolio() {
       ScrollTrigger.refresh();
     };
 
-    // Refresh after a short delay (gives AOS time to set initial states)
-    const timer1 = setTimeout(refreshGSAP, 100);
-    const timer2 = setTimeout(refreshGSAP, 500);
-    const timer3 = setTimeout(refreshGSAP, 2000);
-
-    // Refresh on full window load (images/fonts)
-    if (document.readyState === 'complete') {
+    // The most robust fix for production layout shifts:
+    // Watch the entire body for ANY height changes (images loading, AOS expanding, etc)
+    // and instantly tell GSAP to recalculate all pinned sections.
+    const resizeObserver = new ResizeObserver(() => {
       refreshGSAP();
-    } else {
-      window.addEventListener('load', refreshGSAP);
-    }
+    });
     
-    // Refresh on resize
-    window.addEventListener('resize', refreshGSAP);
+    // Start observing immediately
+    if (document.body) {
+      resizeObserver.observe(document.body);
+    }
+
+    // Fallback timers for initial hydration
+    const timer1 = setTimeout(refreshGSAP, 500);
+    const timer2 = setTimeout(refreshGSAP, 2000);
 
     return () => {
+      resizeObserver.disconnect();
       clearTimeout(timer1);
       clearTimeout(timer2);
-      clearTimeout(timer3);
-      window.removeEventListener('load', refreshGSAP);
-      window.removeEventListener('resize', refreshGSAP);
     };
   }, []);
 
   return (
-    <main id="home" className="bg-zinc-950 min-h-screen text-white font-sans selection:bg-[#facc15]/30 overflow-x-hidden">
+    <>
+      {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      <main id="home" className={`bg-zinc-950 min-h-screen text-white font-sans selection:bg-[#facc15]/30 overflow-x-hidden ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
       <Navbar />
 
       {/* Fixed Portfolio Background for Parallax Overlap */}
@@ -88,6 +92,7 @@ function MainPortfolio() {
       </div>
 
     </main>
+    </>
   );
 }
 
