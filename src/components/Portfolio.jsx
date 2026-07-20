@@ -198,7 +198,7 @@ const Portfolio = () => {
       </div>
 
       {/* 5. Color Selector */}
-      <div className="absolute bottom-16 md:bottom-12 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-transparent pointer-events-auto">
+      <div className="absolute bottom-24 md:bottom-12 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-transparent pointer-events-auto">
         {colors.map((color) => (
           <button
             key={color}
