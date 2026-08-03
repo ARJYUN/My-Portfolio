@@ -15,6 +15,13 @@ import pImg4 from '../assets/journey/image-4.jpeg';
 import pImg5 from '../assets/journey/image-5.jpeg';
 import pImg6 from '../assets/journey/image-6.png';
 
+import gImg1 from '../assets/journey/gallery/1.jpeg';
+import gImg2 from '../assets/journey/gallery/2.jpeg';
+import gImg3 from '../assets/journey/gallery/3.jpeg';
+import gImg4 from '../assets/journey/gallery/4.jpeg';
+import gImg5 from '../assets/journey/gallery/5.jpeg';
+import gImg6 from '../assets/journey/gallery/6.jpeg';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const journeyData = [
@@ -196,6 +203,38 @@ const Welcome = () => {
             {journeyData.map((item, index) => (
                 <JourneyItem key={index} item={item} index={index} />
             ))}
+         </div>
+
+         {/* Journey Image Gallery Marquee */}
+         <div className="w-full mt-20 md:mt-32 overflow-hidden relative py-10">
+            <style>{`
+              @keyframes imageMarquee {
+                  0% { transform: translateX(0%); }
+                  100% { transform: translateX(-50%); }
+              }
+              .image-marquee-inner {
+                  display: flex;
+                  width: max-content;
+                  animation: imageMarquee 40s linear infinite; 
+              }
+              .image-marquee-inner:hover {
+                  animation-play-state: paused;
+              }
+            `}</style>
+            
+            <div className="relative w-full max-w-[100vw] overflow-hidden">
+               <div className="absolute left-0 top-0 h-full w-16 sm:w-32 z-10 pointer-events-none bg-gradient-to-r from-[#f0f0f0] to-transparent opacity-90"></div>
+               
+               <div className="image-marquee-inner gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-8">
+                  {[gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg1, gImg2, gImg3, gImg4, gImg5, gImg6].map((img, idx) => (
+                      <div key={idx} className="h-60 sm:h-72 md:h-96 w-auto flex-shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg border border-black/5 group bg-zinc-100">
+                          <img src={img} alt={`Journey moment ${idx}`} className="w-auto h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy" />
+                      </div>
+                  ))}
+               </div>
+               
+               <div className="absolute right-0 top-0 h-full w-16 sm:w-32 z-10 pointer-events-none bg-gradient-to-l from-[#f0f0f0] to-transparent opacity-90"></div>
+            </div>
          </div>
       </div>
 
