@@ -21,6 +21,13 @@ import gImg3 from '../assets/journey/gallery/3.jpeg';
 import gImg4 from '../assets/journey/gallery/4.jpeg';
 import gImg5 from '../assets/journey/gallery/5.jpeg';
 import gImg6 from '../assets/journey/gallery/6.jpeg';
+import gImg7 from '../assets/journey/gallery/7.jpeg';
+import gImg8 from '../assets/journey/gallery/8.jpeg';
+import gImg9 from '../assets/journey/gallery/9.jpeg';
+import gImg10 from '../assets/journey/gallery/10.jpeg';
+import gImg11 from '../assets/journey/gallery/11.jpeg';
+import gImg12 from '../assets/journey/gallery/12.jpeg';
+import gImg13 from '../assets/journey/gallery/13.jpeg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -226,7 +233,7 @@ const Welcome = () => {
                <div className="absolute left-0 top-0 h-full w-16 sm:w-32 z-10 pointer-events-none bg-gradient-to-r from-[#f0f0f0] to-transparent opacity-90"></div>
                
                <div className="image-marquee-inner gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-8">
-                  {[gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg1, gImg2, gImg3, gImg4, gImg5, gImg6].map((img, idx) => (
+                  {[gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg7, gImg8, gImg9, gImg10, gImg11, gImg12, gImg13, gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg7, gImg8, gImg9, gImg10, gImg11, gImg12, gImg13].map((img, idx) => (
                       <div key={idx} className="h-60 sm:h-72 md:h-96 w-auto flex-shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg border border-black/5 group bg-zinc-100">
                           <img src={img} alt={`Journey moment ${idx}`} className="w-auto h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy" />
                       </div>
