@@ -14,6 +14,9 @@ import pImg3 from '../assets/journey/image-3.jpeg';
 import pImg4 from '../assets/journey/image-4.jpeg';
 import pImg5 from '../assets/journey/image-5.jpeg';
 import pImg6 from '../assets/journey/image-6.png';
+import pImg7 from '../assets/journey/gallery/15.jpeg';
+import pImg8 from '../assets/journey/gallery/16.jpeg';
+import pImg9 from '../assets/journey/gallery/17.jpg';
 
 import gImg1 from '../assets/journey/gallery/1.jpeg';
 import gImg2 from '../assets/journey/gallery/2.jpeg';
@@ -29,13 +32,18 @@ import gImg11 from '../assets/journey/gallery/11.jpeg';
 import gImg12 from '../assets/journey/gallery/12.jpeg';
 import gImg13 from '../assets/journey/gallery/13.jpeg';
 import gImg14 from '../assets/journey/gallery/14.jpeg';
+import gImg15 from '../assets/journey/gallery/18.jpeg';
+import gImg16 from '../assets/journey/gallery/19.jpeg';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
 const journeyData = [
-  { year: "2026 - PRESENT", title: "WEBMASTER IEEE CS KERALA SECTION", desc: "Led the digital presence of IEEE CS Kerala Section through modern web solutions.", img: pImg3 },
-  { year: "MAY 2026 - PRESENT", title: "R & D INTERN AT BOEHM TECH LLP.", desc: "Developing AI-powered MVP solutions through collaborative research and innovation.", img: pImg5 },
+  { year: "JAN 2026 - PRESENT", title: "WEBMASTER IEEE CS KERALA SECTION", desc: "Led the digital presence of IEEE CS Kerala Section through modern web solutions.", img: pImg3 },
+  { year: "OCT 2026 - PRESENT", title: "FRONTEND DEVELOPER INTERN, ITS SAFE SOLUTIONS PVT. LTD.", desc: "Worked as a Frontend Developer Intern at ITS Safe Solutions, building responsive user interfaces and improving web application usability.", img: pImg8 },
+  { year: "MAY 2026 - AUG 2026", title: "R & D INTERN AT BOEHM TECH LLP.", desc: "Developing AI-powered MVP solutions through collaborative research and innovation.", img: pImg7 },
   { year: "2026 - PRESENT", title: "WEBMASTER IEEE SB NSSCE", desc: "Developed and maintained the official web platforms of IEEE SB NSSCE.", img: pImg4 },
+  { year: "SEP 2026 - PRESENT", title: "DESIGN LEAD, STACS", desc: "Led the design team at STACS, driving creative direction, UI/UX design, and consistent visual identity across projects.", img: pImg9 },
   { year: "2025 - PRESENT", title: "Tech Lead, μLearn NSSCE", desc: "Empowered students by leading technical initiatives and developer communities, developed and maintained the official website of μLearn NSSCE.", img: pImg2 },
   { year: "AUG 2025 - APR 2026", title: "WEB Intern, IEDC NSSCE", desc: "Successfully Completed 9 months internship as a Web Intern at IEDC NSSCE.", img: pImg6 },
   { year: "2024", title: "JOURNEY BEGINS...", desc: "A journey fueled by learning, innovation, and the pursuit of excellence", img: pImg1 },
@@ -234,7 +242,7 @@ const Welcome = () => {
                <div className="absolute left-0 top-0 h-full w-16 sm:w-32 z-10 pointer-events-none bg-gradient-to-r from-[#f0f0f0] to-transparent opacity-90"></div>
                
                <div className="image-marquee-inner gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-8">
-                  {[gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg7, gImg8, gImg9, gImg10, gImg11, gImg12, gImg13,gImg14, gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg7, gImg8, gImg9, gImg10, gImg11, gImg12, gImg13].map((img, idx) => (
+                  {[gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg7, gImg8, gImg9, gImg10, gImg11, gImg12, gImg13,gImg14, gImg15, gImg16, gImg1, gImg2, gImg3, gImg4, gImg5, gImg6, gImg7, gImg8, gImg9, gImg10, gImg11, gImg12, gImg13].map((img, idx) => (
                       <div key={idx} className="h-60 sm:h-72 md:h-96 w-auto flex-shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg border border-black/5 group bg-zinc-100">
                           <img src={img} alt={`Journey moment ${idx}`} className="w-auto h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy" />
                       </div>
